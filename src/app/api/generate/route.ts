@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import Papa from 'papaparse';
 
-// Initialize Gemini SDK
-// Note: Requires EXPORT GEMINI_API_KEY=your_api_key in .env
-const ai = new GoogleGenAI({});
-
 export async function POST(req: NextRequest) {
   try {
+    // Initialize Gemini SDK inside the handler to prevent build-time crashes on Vercel
+    const ai = new GoogleGenAI({});
+
     const formData = await req.formData();
     const file = formData.get('file') as File;
 
